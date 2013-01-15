@@ -11,13 +11,13 @@ class PDF_result extends FPDF {
 		$this->SetRightMargin($margin);
 		$this->SetAutoPageBreak(true, $margin);
 $user_info = $_SESSION['user_info'];
-$twt = $_SESSION['twt'];
+$tweet = $_SESSION['tweet'];
 
 	}
 	
 	function Header () {
 $user_info = $_SESSION['user_info'];
-$twt = $_SESSION['twt'];
+$tweet = $_SESSION['tweet'];
 
 	     $this->Image($user_info->profile_image_url);
 
@@ -38,9 +38,9 @@ $twt = $_SESSION['twt'];
 }
 
 	
-function Generate_Table($twt, $user_info) {
+function Generate_Table($tweet, $user_info) {
 $user_info = $_SESSION['user_info'];
-$twt = $_SESSION['twt'];
+$tweet = $_SESSION['tweet'];
 
 	$this->SetFont('Arial', 'B', 12);
 	$this->SetTextColor(0);
@@ -55,9 +55,9 @@ $this->SetFillColor(94, 188, 225);
 	$this->SetLineWidth(0.2);
 	$fill = false;
 	
-	for ($i = 0; $i < count($twt); $i++) {
-		$this->Cell(450, 20, $twt[$i]->text, 1, 0, 'L', $fill);
-		$this->Cell(100, 20,  $twt[$i]->created_at, 1, 1, 'R', $fill);
+	for ($i = 0; $i < count($tweet); $i++) {
+		$this->Cell(450, 20, $tweet[$i]->text, 1, 0, 'L', $fill);
+		$this->Cell(100, 20,  $tweet[$i]->created_at, 1, 1, 'R', $fill);
 		$fill = !$fill;
 	}
 	$this->SetX(367);
@@ -66,7 +66,7 @@ $this->SetFillColor(94, 188, 225);
 }
 }
 $user_info = $_SESSION['user_info'];
-$twt = $_SESSION['twt'];
+$tweet = $_SESSION['tweet'];
 if(!empty($user_info->location))
 	$location = $user_info->location;
 else
@@ -94,7 +94,7 @@ $pdf->Cell(200, 15, 'Twitter ID: '.$user_info->id, 0, 2);
 
 $pdf->Ln(100);
 
-$pdf->Generate_Table($twt, $user_info);
+$pdf->Generate_Table($tweet, $user_info);
 
 $pdf->Ln(50);
 

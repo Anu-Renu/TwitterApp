@@ -18,8 +18,8 @@ if(!empty($_GET['oauth_verifier']) && !empty($_SESSION['oauth_token']) && !empty
 	$_SESSION['user_info'] = $user_info;
 	
 	// fetching tweets from user_timeline
-	$twt = $connection->get('https://api.twitter.com/1/statuses/user_timeline.json?include_rts=1&count=10&screen_name='.$user_info->screen_name);
-	$_SESSION['twt'] = $twt;
+	$tweet = $connection->get('https://api.twitter.com/1/statuses/user_timeline.json?include_rts=1&count=10&screen_name='.$user_info->screen_name);
+	$_SESSION['tweet'] = $tweet;
 }
 else 
     header('location:twitter_login.php'); //if error start form login
@@ -78,7 +78,7 @@ else
 							<?php /*Load tweets from time-line*/
 								for ($i=0; $i<=9; $i++) 
 								{
-									if(empty($twt[$i]->id_str))
+									if(empty($tweet[$i]->id_str))
 									{ 
 										echo "<p style='color:#F00'><b>No more tweets</b></p>"; 
 										break; // last tweets break the loop
@@ -88,15 +88,15 @@ else
                             <fieldset class="step">
 	                            <legend><img src="<?php echo $user_info->profile_image_url; ?>"/>&nbsp;&nbsp;<?php echo $user_info->name; ?></legend>
                                 <p>
-	                                <a href="http://www.twitter.com/<?php echo $user_info->screen_name ?>/status/<?php echo $twt[$i]->id_str ?>" target="_blank"><?php echo $twt[$i]->text; ?></a>
+	                                <a href="http://www.twitter.com/<?php echo $user_info->screen_name ?>/status/<?php echo $tweet[$i]->id_str ?>" target="_blank"><?php echo $tweet[$i]->text; ?></a>
                                 </p>
 								<?php 
-									if(empty($twt[$i+1]->id_str))
+									if(empty($tweet[$i+1]->id_str))
 									{ echo "<p style='color:#F00'> <b>No more tweets<b></p>";break;}
 									else{
                                 ?>
                                 <p style="margin-top:15px;">
-	                                <a href="http://www.twitter.com/<?php echo $user_info->screen_name ?>/status/<?php echo $twt[$i+1]->id_str ?>"target="_blank"><?php echo $twt[$i+1]->text; ?></a>
+	                                <a href="http://www.twitter.com/<?php echo $user_info->screen_name ?>/status/<?php echo $tweet[$i+1]->id_str ?>"target="_blank"><?php echo $tweet[$i+1]->text; ?></a>
                                 </p>
                             </fieldset>
 							<?php 
